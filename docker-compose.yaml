@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  auth-service:
+    <<: *base-service  # Use the base service configuration from _TEMP
+    image: cdaprod/auth-service:latest
+    environment:
+      - AUTH_DB_HOST=db-service
+      - AUTH_DB_USER=${AUTH_DB_USER:-authuser}
+      - AUTH_DB_PASSWORD=${AUTH_DB_PASSWORD:-authpassword}
+      - JWT_SECRET=${JWT_SECRET:-defaultsecret}
+    depends_on:
+      - db-service
+
+  db-service:
+    <<: *db-service  # Use the DB service configuration from _TEMP
+    image: postgres:14-alpine
+
+networks:
+  core_network:
+    external: true
+
+volumes:
+  db-data:

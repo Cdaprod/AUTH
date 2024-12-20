@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package auth;
+
+import "core.proto";
+
+// User Authentication Service Interface
+service AuthService {
+  rpc AuthenticateUser(AuthRequest) returns (AuthResponse);
+  rpc ValidateToken(ValidateRequest) returns (AuthResponse);
+}
+
+// Auth Request message
+message AuthRequest {
+  core.Metadata metadata = 1;
+  string username = 2;
+  string password = 3;
+}
+
+// Auth Response message
+message AuthResponse {
+  core.BaseResponse base_response = 1;
+  string token = 2;
+}
+
+// Validate Token Request message
+message ValidateRequest {
+  core.Metadata metadata = 1;
+  string token = 2;
+}
